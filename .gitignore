@@ -31,3 +31,4 @@ package-lock.json
 src/.env
 sqlite.db
 drizzle
+assets/knowledge.txt

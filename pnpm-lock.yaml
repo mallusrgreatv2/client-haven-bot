@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@google/generative-ai':
+        specifier: ^0.12.0
+        version: 0.12.0
       '@sapphire/decorators':
         specifier: ^6.0.4
         version: 6.1.0
@@ -388,6 +391,10 @@ packages:
   '@favware/colorette-spinner@1.0.1':
     resolution: {integrity: sha512-PPYtcLzhSafdylp8NBOxMCYIcLqTUMNiQc7ciBoAIvxNG2egM+P7e2nNPui5+Svyk89Q+Tnbrp139ZRIIBw3IA==}
     engines: {node: '>=v16'}
+
+  '@google/generative-ai@0.12.0':
+    resolution: {integrity: sha512-krWjurjEUHSFhCX4lGHMOhbnpBfYZGU31mpHpPBQwcfWm0T+/+wxC4UCAJfkxxc3/HvGJVG8r4AqrffaeDHDlA==}
+    engines: {node: '>=18.0.0'}
 
   '@sapphire/async-queue@1.5.2':
     resolution: {integrity: sha512-7X7FFAA4DngXUl95+hYbUF19bp1LGiffjJtu7ygrZrbdCSsdDDBaSjB7Akw0ZbOu6k0xpXyljnJ6/RZUvLfRdg==}
@@ -1271,6 +1278,8 @@ snapshots:
   '@favware/colorette-spinner@1.0.1':
     dependencies:
       colorette: 2.0.20
+
+  '@google/generative-ai@0.12.0': {}
 
   '@sapphire/async-queue@1.5.2': {}
 
