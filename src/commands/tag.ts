@@ -10,6 +10,8 @@ import { ApplyOptions } from '@sapphire/decorators';
 export class TagCommand extends Command {
 	public override async messageRun(message: Message, args: Args) {
 		const tagName = await args.pick('string').catch(() => {});
+		const user = await args.pick('user').catch(() => {});
+		const reference = await message.fetchReference().catch(() => {});
 		if (!tagName) return message.reply('Specify a tag name! See all tags with `-tags` command.');
 		const tag = (
 			await db
@@ -19,6 +21,7 @@ export class TagCommand extends Command {
 				.catch(() => {})
 		)?.[0];
 		if (!tag) return message.reply('Tag not found! See all tags with `-tags` command.');
-		return message.reply(tag.response || 'Empty response received from tag');
+		if (reference) return message.reply(tag.response || 'Empty response received from tag');
+		return message.reply(tag.response ? `${user ? `${user}, ` : ''}${tag.response}` : 'Empty response received from tag');
 	}
 }
