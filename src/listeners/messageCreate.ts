@@ -22,6 +22,7 @@ export class ChatbotEvent extends Listener<Events.MessageCreate> {
 	public override async run(message: Message) {
 		if (message.author.bot) return;
 		if (message.channelId !== process.env.CHATBOT_CHANNEL_ID) return;
+		await message.channel.sendTyping();
 		const history = chatHistory[message.author.id];
 		let chat;
 		if (!history)
