@@ -1,5 +1,5 @@
 import { Listener } from '@sapphire/framework';
-import { Events, Message } from 'discord.js';
+import { Events, Message, MessageFlags } from 'discord.js';
 import { ChatSession, GoogleGenerativeAI } from '@google/generative-ai';
 import fs from 'fs';
 import { Time } from '@sapphire/time-utilities';
@@ -20,6 +20,7 @@ const model = ai.getGenerativeModel({
 
 export class ChatbotEvent extends Listener<Events.MessageCreate> {
 	public override async run(message: Message) {
+		if (message.flags.has(MessageFlags.SuppressNotifications)) return;
 		if (message.author.bot) return;
 		if (message.channelId !== process.env.CHATBOT_CHANNEL_ID) return;
 		await message.channel.sendTyping();
