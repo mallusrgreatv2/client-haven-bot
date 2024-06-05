@@ -23,7 +23,7 @@ export class TagCommand extends Command {
 		if (!tag) return message.reply('Tag not found! See all tags with `-tags` command.');
 		if (reference) {
 			await message.delete();
-			return reference.reply(tag.response || 'Empty response received from tag');
+			return reference.reply(tag.response ? `*Suggested by ${message.author}*\n\n${tag.response}` : 'Empty response received from tag');
 		}
 		return message.reply(tag.response ? `${user ? `${user}, ` : ''}${tag.response}` : 'Empty response received from tag');
 	}
