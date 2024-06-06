@@ -1,7 +1,7 @@
 import { Args, Command } from '@sapphire/framework';
 import { Message } from 'discord.js';
 import { db, tags } from '../lib/drizzle.js';
-import { eq } from 'drizzle-orm/sql';
+import { eq, or } from 'drizzle-orm/sql';
 import { ApplyOptions } from '@sapphire/decorators';
 
 @ApplyOptions<Command.Options>({
@@ -17,7 +17,7 @@ export class TagCommand extends Command {
 			await db
 				.select()
 				.from(tags)
-				.where(eq(tags.name, tagName))
+				.where(or(eq(tags.name, tagName), eq(tags.id, Number(tagName))))
 				.catch(() => {})
 		)?.[0];
 		if (!tag) return message.reply('Tag not found! See all tags with `-tags` command.');

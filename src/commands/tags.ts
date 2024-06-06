@@ -53,7 +53,7 @@ export class TagCommand extends Subcommand {
 				new EmbedBuilder()
 					.setTitle('Tags')
 					.setDescription(
-						tagsList.map((v, i) => `\`#${(i + 1).toString().padStart(length, '0')}\` | \`${v.name}\``).join('\n') || 'No tags found'
+						`**How to use tags?** \`-tag <id or name>\`\n\n${tagsList.map((v, i) => `\`#${(i + 1).toString().padStart(length, '0')}\` | \`${v.name}\``).join('\n') || 'No tags found'}`
 					)
 			]
 		});
