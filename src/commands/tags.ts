@@ -34,9 +34,12 @@ export class TagCommand extends Subcommand {
 		const trigger = args.getOption('trigger');
 		if (!name) return message.reply('Specify the name option.');
 		await message.reply('Send the response in the next message.');
-		const response = await message.channel.awaitMessages({ max: 1, time: Time.Minute * 5 }).catch(() => {});
+		const response = await message.channel
+			.awaitMessages({ max: 1, time: Time.Minute * 5, filter: (m) => m.author.id === message.author.id })
+			.catch(() => {});
 		if (!response) return;
 		const content = response.first()?.content;
+		if (content?.toLowerCase() === 'cancel') return response.first()?.reply('Cancelled tag creation.');
 		if (!content) return;
 		await db.insert(tags).values({
 			name,

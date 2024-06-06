@@ -2,8 +2,8 @@
 	"name": "client-haven-bot",
 	"version": "1.0.0",
 	"main": "dist/index.js",
-	"author": "@sapphire",
-	"license": "UNLICENSE",
+	"author": "mallusrgreatv2",
+	"license": "MIT",
 	"type": "module",
 	"dependencies": {
 		"@google/generative-ai": "^0.12.0",
