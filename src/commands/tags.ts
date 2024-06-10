@@ -5,6 +5,7 @@ import { Time } from '@sapphire/time-utilities';
 import { EmbedBuilder, Message, PermissionFlagsBits } from 'discord.js';
 import { db, tags } from '../lib/drizzle.js';
 import { eq } from 'drizzle-orm/sql';
+import { deleteButtonRow } from '../lib/buttons.js';
 
 @ApplyOptions<Subcommand.Options>({
 	subcommands: [
@@ -36,17 +37,24 @@ export class TagCommand extends Subcommand {
 		await message.reply('Send the response in the next message.');
 		const response = await message.channel
 			.awaitMessages({ max: 1, time: Time.Minute * 5, filter: (m) => m.author.id === message.author.id })
+			.then((v) => v.first())
 			.catch(() => {});
 		if (!response) return;
-		const content = response.first()?.content;
-		if (content?.toLowerCase() === 'cancel') return response.first()?.reply('Cancelled tag creation.');
-		if (!content) return;
+		if (response?.content.toLowerCase() === 'cancel')
+			return response.reply({
+				content: 'Cancelled tag creation.',
+				components: [deleteButtonRow([message.author.id], message.id)]
+			});
+		if (!response?.content) return;
 		await db.insert(tags).values({
 			name,
-			response: content,
+			response: response.content,
 			trigger
 		});
-		return await message.reply('Created tag!');
+		return await message.reply({
+			content: 'Created tag!',
+			components: [deleteButtonRow([message.author.id], message.id, response.id)]
+		});
 	}
 	public async messageTagsList(message: Message) {
 		const tagsList = await db.select().from(tags);
@@ -58,13 +66,21 @@ export class TagCommand extends Subcommand {
 					.setDescription(
 						`**How to use tags?** \`-tag <id or name>\`\n\n${tagsList.map((v, i) => `\`#${(i + 1).toString().padStart(length, '0')}\` | \`${v.name}\` / \`${v.id}\``).join('\n') || 'No tags found'}`
 					)
-			]
+			],
+			components: [deleteButtonRow([message.author.id], message.id)]
 		});
 	}
 	public async messageTagsDelete(message: Message, args: Args) {
 		const name = args.getOption('name', 'n');
-		if (!name) return message.reply('Specify the name option.');
+		if (!name)
+			return message.reply({
+				content: 'Specify the name option.',
+				components: [deleteButtonRow([message.author.id], message.id)]
+			});
 		await db.delete(tags).where(eq(tags.name, name));
-		return message.reply(`Deleted tag **${name}**`);
+		return message.reply({
+			content: `Deleted tag **${name}**`,
+			components: [deleteButtonRow([message.author.id], message.id)]
+		});
 	}
 }
