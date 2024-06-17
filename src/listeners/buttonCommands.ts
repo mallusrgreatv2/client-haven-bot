@@ -1,6 +1,6 @@
 import { ApplyOptions } from '@sapphire/decorators';
 import { Events, Listener } from '@sapphire/framework';
-import { Interaction } from 'discord.js';
+import { Interaction, PermissionFlagsBits } from 'discord.js';
 
 @ApplyOptions<Listener.Options>({
 	event: Events.InteractionCreate
@@ -13,7 +13,7 @@ export class ButtonCommandsListener extends Listener<typeof Events.InteractionCr
 		switch (cmd) {
 			case 'delete': {
 				const authorizedUserIds = args[0].split('-');
-				if (!authorizedUserIds.includes(interaction.user.id))
+				if (!authorizedUserIds.includes(interaction.user.id) && !interaction.memberPermissions?.has(PermissionFlagsBits.Administrator))
 					return interaction.reply({ ephemeral: true, content: 'You cannot use this button.' });
 				await interaction.deferReply({
 					ephemeral: true

@@ -34,7 +34,7 @@ export class TagCommand extends Subcommand {
 		const name = args.getOption('name', 'n');
 		const trigger = args.getOption('trigger');
 		if (!name) return message.reply('Specify the name option.');
-		await message.reply('Send the response in the next message.');
+		const sendResponseMessage = await message.reply('Send the response in the next message.');
 		const response = await message.channel
 			.awaitMessages({ max: 1, time: Time.Minute * 5, filter: (m) => m.author.id === message.author.id })
 			.then((v) => v.first())
@@ -53,7 +53,7 @@ export class TagCommand extends Subcommand {
 		});
 		return await message.reply({
 			content: 'Created tag!',
-			components: [deleteButtonRow([message.author.id], message.id, response.id)]
+			components: [deleteButtonRow([message.author.id], message.id, response.id, sendResponseMessage.id)]
 		});
 	}
 	public async messageTagsList(message: Message) {
