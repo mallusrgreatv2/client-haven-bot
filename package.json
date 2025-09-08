@@ -6,7 +6,6 @@
 	"license": "MIT",
 	"type": "module",
 	"dependencies": {
-		"@google/generative-ai": "^0.12.0",
 		"@sapphire/decorators": "^6.0.4",
 		"@sapphire/discord.js-utilities": "7.1.6",
 		"@sapphire/framework": "^5.0.7",
@@ -19,8 +18,7 @@
 		"better-sqlite3": "^11.0.0",
 		"colorette": "^2.0.20",
 		"discord.js": "^14.14.1",
-		"drizzle-orm": "^0.31.0",
-		"openai": "^4.47.3"
+		"drizzle-orm": "^0.31.0"
 	},
 	"devDependencies": {
 		"@sapphire/cli": "^1.9.3",
