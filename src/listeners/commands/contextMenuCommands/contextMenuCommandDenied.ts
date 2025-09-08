@@ -1,9 +1,10 @@
-import type { ContextMenuCommandDeniedPayload, Events } from '@sapphire/framework';
-import { Listener, UserError } from '@sapphire/framework';
+import type { ContextMenuCommandDeniedPayload, Events } from "@sapphire/framework";
+import { Listener, UserError } from "@sapphire/framework";
+import { MessageFlags } from "discord.js";
 
 export class UserEvent extends Listener<typeof Events.ContextMenuCommandDenied> {
 	public override async run({ context, message: content }: UserError, { interaction }: ContextMenuCommandDeniedPayload) {
-		if (Reflect.get(Object(context), 'silent')) return;
+		if (Reflect.get(Object(context), "silent")) return;
 
 		if (interaction.deferred || interaction.replied) {
 			return interaction.editReply({
@@ -15,7 +16,7 @@ export class UserEvent extends Listener<typeof Events.ContextMenuCommandDenied> 
 		return interaction.reply({
 			content,
 			allowedMentions: { users: [interaction.user.id], roles: [] },
-			ephemeral: true
+			flags: MessageFlags.Ephemeral
 		});
 	}
 }

@@ -4,14 +4,14 @@ import {
 	type Command,
 	type ContextMenuCommandSuccessPayload,
 	type MessageCommandSuccessPayload
-} from '@sapphire/framework';
-import { cyan } from 'colorette';
-import type { APIUser, Guild, User } from 'discord.js';
+} from "@sapphire/framework";
+import { cyan } from "colorette";
+import type { APIUser, Guild, User } from "discord.js";
 
 export function logSuccessCommand(payload: ContextMenuCommandSuccessPayload | ChatInputCommandSuccessPayload | MessageCommandSuccessPayload): void {
 	let successLoggerData: ReturnType<typeof getSuccessLoggerData>;
 
-	if ('interaction' in payload) {
+	if ("interaction" in payload) {
 		successLoggerData = getSuccessLoggerData(payload.interaction.guild, payload.interaction.user, payload.command);
 	} else {
 		successLoggerData = getSuccessLoggerData(payload.message.guild, payload.message.author, payload.command);
@@ -42,6 +42,6 @@ function getAuthorInfo(author: User | APIUser) {
 }
 
 function getGuildInfo(guild: Guild | null) {
-	if (guild === null) return 'Direct Messages';
+	if (guild === null) return "Direct Messages";
 	return `${guild.name}[${cyan(guild.id)}]`;
 }
